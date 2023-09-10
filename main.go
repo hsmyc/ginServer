@@ -1,20 +1,21 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
-func main() {
-	r := gin.Default()
-	r.Static("/static", "./static")
-	r.LoadHTMLGlob("static/*")
-	r.GET("/ping", response)
-	r.Run()
+type Human struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
 }
 
-func response(c *gin.Context) {
-	c.HTML(http.StatusOK, "index.html", gin.H{
-		"title": "Main website"})
+func main() {
+	osman := Human{"Osman", 25}
+	router := gin.Default()
+	router.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"data": osman,
+		})
+	})
+	router.Run("localhost:3131")
 }
