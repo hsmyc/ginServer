@@ -1,6 +1,9 @@
 package main
 
 import (
+	"ginGonic/learn/configs"
+	"ginGonic/learn/routes"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -12,6 +15,12 @@ type Human struct {
 func main() {
 	osman := Human{"Osman", 25}
 	router := gin.Default()
+	//db
+	configs.ConnectDB()
+
+	//routes
+	routes.UserRoute(router)
+
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"data": osman,
