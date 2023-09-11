@@ -8,4 +8,6 @@ type Class struct {
 	Base_Attack  int                `json:"attack,omitempty" validate:"required"`
 	Base_Defense int                `json:"defense,omitempty" validate:"required"`
 	Base_Health  int                `json:"health,omitempty" validate:"required"`
+	ItemId       primitive.ObjectID `bson:"item_id,omitempty"`
+	WeaponId     primitive.ObjectID `bson:"weapon_id,omitempty"`
 }

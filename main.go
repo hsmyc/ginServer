@@ -22,6 +22,7 @@ func main() {
 	routes.UserRoute(router)
 	routes.ItemRoute(router)
 	routes.CharRoute(router)
+	routes.ClassRoute(router)
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"data": osman,
