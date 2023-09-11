@@ -31,6 +31,11 @@ func CreateItem() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, responses.AppResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
+		if err := item.CType(item.Type); err != nil {
+			c.JSON(http.StatusBadRequest, responses.AppResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+
 		newItem := models.Item{
 			Name:  item.Name,
 			Type:  item.Type,

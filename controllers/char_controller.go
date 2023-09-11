@@ -32,7 +32,6 @@ func CreateChar() gin.HandlerFunc {
 		}
 		newChar := models.Character{
 			Name:  char.Name,
-			Class: char.Class,
 			Level: char.Level,
 		}
 
@@ -85,7 +84,6 @@ func EditChar() gin.HandlerFunc {
 		}
 		update := bson.M{
 			"name":  char.Name,
-			"class": char.Class,
 			"level": char.Level,
 		}
 

@@ -33,9 +33,9 @@ func CreateUser() gin.HandlerFunc {
 			return
 		}
 		newUser := models.User{
-			Name:     user.Name,
-			Location: user.Location,
-			Title:    user.Title,
+			Name:  user.Name,
+			Email: user.Email,
+			Image: user.Image,
 		}
 		result, err := userCollection.InsertOne(ctx, newUser)
 		if err != nil {
@@ -83,9 +83,9 @@ func EditUser() gin.HandlerFunc {
 		}
 
 		update := bson.M{
-			"name":     user.Name,
-			"location": user.Location,
-			"title":    user.Title,
+			"name":  user.Name,
+			"email": user.Email,
+			"image": user.Image,
 		}
 		result, err := userCollection.UpdateOne(ctx, bson.M{"_id": objId}, bson.M{"$set": update})
 		if err != nil {
