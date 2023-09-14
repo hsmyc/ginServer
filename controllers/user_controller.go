@@ -32,10 +32,16 @@ func CreateUser() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, responses.AppResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
+		hashedPassword, err := configs.HashPassword(user.Password)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.AppResponse{Status: http.StatusInternalServerError, Message: "Pasword cannot be hashed!", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
 		newUser := models.User{
-			Name:  user.Name,
-			Email: user.Email,
-			Image: user.Image,
+			Name:     user.Name,
+			Email:    user.Email,
+			Password: hashedPassword,
+			Image:    user.Image,
 		}
 		result, err := userCollection.InsertOne(ctx, newUser)
 		if err != nil {
@@ -81,11 +87,16 @@ func EditUser() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, responses.AppResponse{Status: http.StatusBadRequest, Message: "error", Data: map[string]interface{}{"data": validationErr.Error()}})
 			return
 		}
-
+		hashedPassword, err := configs.HashPassword(user.Password)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.AppResponse{Status: http.StatusInternalServerError, Message: "Pasword cannot be hashed!", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
 		update := bson.M{
-			"name":  user.Name,
-			"email": user.Email,
-			"image": user.Image,
+			"name":     user.Name,
+			"email":    user.Email,
+			"password": hashedPassword, // TODO: hash password
+			"image":    user.Image,
 		}
 		result, err := userCollection.UpdateOne(ctx, bson.M{"_id": objId}, bson.M{"$set": update})
 		if err != nil {

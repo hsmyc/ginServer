@@ -3,6 +3,7 @@ package main
 import (
 	"ginGonic/learn/configs"
 	"ginGonic/learn/routes"
+	"ginGonic/learn/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,7 +18,7 @@ func main() {
 	router := gin.Default()
 	//db
 	configs.ConnectDB()
-
+	services.GenerateToken("osman")
 	//routes
 	routes.UserRoute(router)
 	routes.ItemRoute(router)
