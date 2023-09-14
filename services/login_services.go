@@ -48,7 +48,7 @@ func LoginHandler() gin.HandlerFunc {
 
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
-		var user models.User
+		var user models.UserLogin
 		if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, responses.AppResponse{Status: http.StatusBadRequest, Message: "model didn't get error", Data: map[string]interface{}{"data": err.Error()}})
 			return
@@ -65,10 +65,8 @@ func LoginHandler() gin.HandlerFunc {
 			return
 		}
 		loggedUser := models.User{
-			Name:     user.Name,
 			Email:    user.Email,
 			Password: hashedPassword,
-			Image:    user.Image,
 		}
 
 		err = userCollection.FindOne(ctx, bson.M{"email": loggedUser.Email}).Decode(&loggedUser)
