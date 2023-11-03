@@ -86,6 +86,18 @@ func LoginHandler() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, responses.AppResponse{Status: http.StatusOK, Message: "You logged in!", Data: map[string]interface{}{"data": token}})
+		c.JSON(http.StatusOK, responses.AppResponse{Status: http.StatusOK, Message: "You logged in!", Data: map[string]interface{}{"token": token}})
+	}
+}
+
+func TokenHandler() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		tokenString := c.Request.Header.Get("Token")
+		claims, err := VerifyToken(tokenString)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, responses.AppResponse{Status: http.StatusInternalServerError, Message: "token verify error", Data: map[string]interface{}{"data": err.Error()}})
+			return
+		}
+		c.JSON(http.StatusOK, responses.AppResponse{Status: http.StatusOK, Message: "token verified!", Data: map[string]interface{}{"uuid": claims.UserId}})
 	}
 }

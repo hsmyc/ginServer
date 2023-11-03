@@ -15,4 +15,5 @@ func UserRoute(router *gin.Engine) {
 	router.GET("/users", controllers.GetAllUsers())
 	router.PUT("/users/:userId/character/:charId", services.LinkUserToCharacter())
 	router.POST("/user/login", services.LoginHandler())
+	router.POST("/user/token", services.TokenHandler())
 }

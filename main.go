@@ -5,17 +5,19 @@ import (
 	"ginGonic/learn/routes"
 	"ginGonic/learn/services"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-type Human struct {
-	Name string `json:"name"`
-	Age  int    `json:"age"`
-}
-
 func main() {
-	osman := Human{"Osman", 25}
+
 	router := gin.Default()
+	//cors
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"http://localhost:3000"}
+	config.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	config.AllowHeaders = []string{"Origin", "Content-Length", "Content-Type", "Token"}
+	router.Use(cors.New(config))
 	//db
 	configs.ConnectDB()
 	services.GenerateToken("osman")
@@ -24,10 +26,6 @@ func main() {
 	routes.ItemRoute(router)
 	routes.CharRoute(router)
 	routes.ClassRoute(router)
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"data": osman,
-		})
-	})
+
 	router.Run("localhost:3131")
 }
