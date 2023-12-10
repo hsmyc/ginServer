@@ -3,7 +3,6 @@ package main
 import (
 	"ginGonic/learn/configs"
 	"ginGonic/learn/routes"
-	"ginGonic/learn/services"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -20,7 +19,6 @@ func main() {
 	router.Use(cors.New(config))
 	//db
 	configs.ConnectDB()
-	services.GenerateToken("osman")
 	//routes
 	routes.UserRoute(router)
 	routes.ItemRoute(router)
