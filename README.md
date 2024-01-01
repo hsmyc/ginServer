@@ -7,6 +7,7 @@
 - Custom authentication system
 - Organized directory structure with controllers, models, responses, routes, and services
 - Efficient handling of HTTP requests and responses
+- Integration of MongoDB for data management.
 
 ## Installation
 To install, run:
